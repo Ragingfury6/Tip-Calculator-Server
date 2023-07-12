@@ -15,7 +15,7 @@ app.use('/tip', tipRouter);
 
 const connect = async () => {
     try{
-        await mongoose.connect('mongodb+srv://FaKe_Fury:tOW98vi1JM47UCWi@trentscluster.4tmres8.mongodb.net/');
+        await mongoose.connect(process.env.VITE_MONGO_CONNECT);
         ViteExpress.listen(app, port, () =>{
             console.log(`Listening on port ${port}`);
         });
