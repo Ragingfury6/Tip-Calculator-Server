@@ -11,7 +11,7 @@ export default function TipReview({date, location, total, employees, tips, hours
             </div>
             <div>
                 <p>Date</p>
-                <p>{date}</p>
+                <p>{new Date(date).toLocaleString('en-GB', { timeZone: 'MST' })}</p>
             </div>
             <div>
                 <p>Total</p>
