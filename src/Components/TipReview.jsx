@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import dateConverter from '../helpers/dateConverter';
 import Swal from 'sweetalert2';
-import TipHeader from './TipHeader';
+// import TipHeader from './TipHeader';
 export default function TipReview({date, location, total, employees, tips, hours}){
     const employeeArr = employees.split(",");
     const tipsArr = tips.split(",");
