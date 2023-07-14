@@ -15,6 +15,7 @@ app.use('/tip', tipRouter);
 
 const connect = async () => {
     try{
+        // eslint-disable-next-line no-undef
         await mongoose.connect(process.env.VITE_MONGO_CONNECT);
         ViteExpress.listen(app, port, () =>{
             console.log(`Listening on port ${port}`);
