@@ -41,7 +41,7 @@ export default function TipReview({date, location, total, employees, tips, hours
         <div className="grid grid-cols-4 gap-4 justify-items-center bg-primary-600 rounded-md p-3 cursor-pointer hover:bg-accent-dark-blue transition" onClick={()=>handleClick()}>
                 <p>{location}</p>
                 <p>{`${month} ${day}, ${time}`}</p>
-                <p>{total}</p>
+                <p>${total.toFixed(2)}</p>
                 {/* {employeeArr.map((e,idx)=>{
                     return (
                     <div className="emp" key={idx}>
