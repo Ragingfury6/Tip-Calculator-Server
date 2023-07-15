@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite",
+    "start": "./server/app.js",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
@@ -27,6 +27,7 @@
     "vite-express": "^0.9.1"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.3.3",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@vitejs/plugin-react": "^4.0.1",
