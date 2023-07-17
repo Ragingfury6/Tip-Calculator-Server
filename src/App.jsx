@@ -53,6 +53,7 @@ function App() {
 
     // new request with use query
     // set filtered data
+    // react loading skele
     setFilteredData('')
     return true;
   };
