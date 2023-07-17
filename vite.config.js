@@ -7,7 +7,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
         external: [
-            "sweetalert2"
+            "sweetalert2",
+            "number-to-words",
+            "convert-time"
         ],
     }
 },
