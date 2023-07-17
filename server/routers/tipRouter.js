@@ -44,10 +44,7 @@ tipRouter.post("/filter", async (req, res) => {
     maxTotal,
   } = req.body;
   // "build" a Date from date and location to query the db
-  const filteredTips = await Tip.find({
-    // location: { $regex: '/Hap/', $options: "i" },
-    total: {$gte:minTotal, $lte:maxTotal}
-  });
+  const filteredTips = await Tip.find({}).where('total').gte(Number(minTotal)).lte(Number(maxTotal)).sort('-total').exec();
   if(filteredTips){
     return res.status(200).json(filteredTips);
   }
