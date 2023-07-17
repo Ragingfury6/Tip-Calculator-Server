@@ -18,24 +18,25 @@ export default function TipReview({date, location, total, employees, tips, hours
         );
     },'');
     const handleClick = () => {
-        Swal.fire({
-            title: 'Detailed View',
-            html:`<div class="">
-            <div class="grid grid-cols-3 gap-4 justify-items-center font-bold text-2xl">
-                <p>Employees</p>
-                <p>Hours</p>
-                <p>Tips</p>
-            </div>
-            <div class="h-px bg-accent-dark-blue px-4 my-2 rounded-full"></div>
-            <div class="bg-primary-800 p-2 grid grid-flow-row gap-3 rounded-xl max-h-[35rem] overflow-scroll">
-            ${detailedViewHTML}
-            </div>
-            </div>`,
-            background:"#191C24",
-            color:"#fff",
-            confirmButtonColor:"#0D6EFD",
-            confirmButtonText: 'Okay!'
-          })
+        console.log("Clicked!");
+        // Swal.fire({
+        //     title: 'Detailed View',
+        //     html:`<div class="">
+        //     <div class="grid grid-cols-3 gap-4 justify-items-center font-bold text-2xl">
+        //         <p>Employees</p>
+        //         <p>Hours</p>
+        //         <p>Tips</p>
+        //     </div>
+        //     <div class="h-px bg-accent-dark-blue px-4 my-2 rounded-full"></div>
+        //     <div class="bg-primary-800 p-2 grid grid-flow-row gap-3 rounded-xl max-h-[35rem] overflow-scroll">
+        //     ${detailedViewHTML}
+        //     </div>
+        //     </div>`,
+        //     background:"#191C24",
+        //     color:"#fff",
+        //     confirmButtonColor:"#0D6EFD",
+        //     confirmButtonText: 'Okay!'
+        //   })
     }
     return (
         <div className="grid grid-cols-4 gap-4 justify-items-center bg-primary-600 rounded-md p-3 cursor-pointer hover:bg-accent-dark-blue transition" onClick={()=>handleClick()}>
