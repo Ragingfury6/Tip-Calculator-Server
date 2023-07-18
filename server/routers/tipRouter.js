@@ -54,7 +54,7 @@ tipRouter.post("/filter", async (req, res) => {
     minTotal,
     maxTotal,
   } = req.body;
-  console.log(location, startDate,endDate,startTime,endTime, minTotal, maxTotal);
+
   // Set Defaults for body
   if(minTotal == "") minTotal = 0;
   if(maxTotal == "") maxTotal = 50000;
@@ -79,7 +79,7 @@ tipRouter.post("/filter", async (req, res) => {
   FIX MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC
 
   */
-  
+  console.log(location, startDate,endDate,startTime,endTime, minTotal, maxTotal);
   // Setup Date
   let [startYear, startMonth, startDay] =  startDate.split("-");
   let [startHours, startMinutes] = startTime.split(":");
