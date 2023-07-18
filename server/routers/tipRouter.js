@@ -18,14 +18,16 @@ tipRouter.get("/", async (req, res) => {
 //   return res.status(200).json(tip);
 // });
 
-// tipRouter.put("/", async (req,res)=>{
-//     (await Tip.find()).forEach(async (tip)=>{
-//        let date = tip._id.getTimestamp().toISOString();
-//        tip.date = date;
-//        await tip.save();
-//     });
-//     res.sendStatus(201);
-// });
+tipRouter.put("/", async (req,res)=>{
+    (await Tip.find()).forEach(async (tip)=>{
+       let date = tip._id.getTimestamp().toISOString();
+       console.log(date);
+    //    date = new Date(date).toISOString();
+    //    tip.date = date;
+    //    await tip.save();
+    });
+    res.sendStatus(201);
+});
 
 // Add a tip
 tipRouter.post("/", async (req, res) => {
@@ -55,7 +57,7 @@ tipRouter.post("/filter", async (req, res) => {
   console.log(location, startDate,endDate,startTime,endTime, minTotal, maxTotal);
   // Set Defaults for body
   if(minTotal == "") minTotal = 0;
-  if(maxTotal == "") maxTotal = Infinity;
+  if(maxTotal == "") maxTotal = 50000;
 
   if(startDate == ""){
     let tempDay = new Date();
@@ -73,6 +75,10 @@ tipRouter.post("/filter", async (req, res) => {
     let tempDay = new Date();
     endTime=`${tempDay.getHours()}:${tempDay.getMinutes()}`;
   }
+  /*
+  FIX MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC
+
+  */
   
   // Setup Date
   let [startYear, startMonth, startDay] =  startDate.split("-");
@@ -96,12 +102,12 @@ tipRouter.post("/filter", async (req, res) => {
   endISO = endISO.toISOString();
 
 
-  
-  const filteredTips = await Tip.find({}).where('total').gte(Number(minTotal)).lte(Number(maxTotal)).where('date').gte(startISO).lte(endISO).sort('-total').exec();
-  if(filteredTips){
-    return res.status(200).json(filteredTips);
-  }
-  return res.sendStatus(400);
+  return res.status(200).json({startISO ,endISO})
+//   const filteredTips = await Tip.find({}).where('total').gte(Number(minTotal)).lte(Number(maxTotal)).where('date').gte(startISO).lte(endISO).sort('-total').exec();
+//   if(filteredTips){
+//     return res.status(200).json(filteredTips);
+//   }
+//   return res.sendStatus(400);
 });
 
 export default tipRouter;

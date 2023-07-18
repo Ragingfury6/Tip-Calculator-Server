@@ -7,7 +7,7 @@ export default function TipReview({date, location, total, employees, tips, hours
     const tipsArr = tips.split(",");
     const hoursArr = hours.split(",");
     const totalHours = hoursArr.reduce((a,e)=>a+Number(e),0);
-    const {month,day,time} = dateConverter(new Date(date).toLocaleString('en-GB', { timeZone: 'MST' }));
+    const {month,day,time} = dateConverter(new Date(date).toLocaleString('en-GB', { timeZone: 'UTC' }));
     const detailedViewHTML = employeeArr.reduce((a,e,i)=>{
         return (a+
         `<div class="grid grid-cols-3 gap-4 justify-items-center text-[#fff] bg-primary-600 rounded-md p-3" key={idx}>
