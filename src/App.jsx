@@ -40,7 +40,7 @@ function App() {
     minTotal: "",
     maxTotal: "",
   });
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (
       new Date(filtration.endDate).getTime() <
@@ -50,12 +50,33 @@ function App() {
     ) return false;
     
     console.log(filtration);
-
+    await fetch(
+      "https://tip-calculator-server.onrender.com/tip/filter",
+      {
+        method: "POST",
+        body:JSON.stringify({
+          location: filtration.location,
+          startDate:filtration.startDate,
+          endDate:filtration.endDate,
+          startTime:filtration.startTime,
+          endTime:filtration.endTime,
+          minTotal:filtration.minTotal,
+          maxTotal:filtration.maxTotal
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then(res=>res.json()).then(data=>{
+      if(data){
+        console.log(data);
+        setFilteredData(data);
+        return true;
+      }
+    });
     // new request with use query
     // set filtered data
     // react loading skele
-    setFilteredData('')
-    return true;
   };
   return (
     <>
@@ -68,7 +89,7 @@ function App() {
           {status === "success" && (
             <>
               <h2 className="text-center text-3xl font-semibold mb-2">
-                Displaying All {data.length} Results
+                {filteredData ? (filteredData.length === 0 ? 'No Results Found' : `Displaying All ${filteredData.length} Results`) : `Displaying All ${data.length} Results`}
               </h2>
               <TipHeader headers={["Location", "Date", "Total", "Breakdown"]} />
               <div className="max-h-[28rem] overflow-scroll grid grid-flow-row gap-3">
