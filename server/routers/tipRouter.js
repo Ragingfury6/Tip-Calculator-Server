@@ -18,16 +18,16 @@ tipRouter.get("/", async (req, res) => {
 //   return res.status(200).json(tip);
 // });
 
-tipRouter.put("/", async (req,res)=>{
-    (await Tip.find()).forEach(async (tip)=>{
-       let date = tip._id.getTimestamp().toISOString();
-       console.log(date);
-    //    date = new Date(date).toISOString();
-    //    tip.date = date;
-    //    await tip.save();
-    });
-    res.sendStatus(201);
-});
+// tipRouter.put("/", async (req,res)=>{
+//     (await Tip.find()).forEach(async (tip)=>{
+//        let date = tip._id.getTimestamp().toISOString();
+//        console.log(date);
+//     //    date = new Date(date).toISOString();
+//     //    tip.date = date;
+//     //    await tip.save();
+//     });
+//     res.sendStatus(201);
+// });
 
 // Add a tip
 tipRouter.post("/", async (req, res) => {
