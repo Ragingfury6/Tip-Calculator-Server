@@ -102,12 +102,12 @@ tipRouter.post("/filter", async (req, res) => {
   endISO = endISO.toISOString();
 
 
-  return res.status(200).json({startISO ,endISO})
-//   const filteredTips = await Tip.find({}).where('total').gte(Number(minTotal)).lte(Number(maxTotal)).where('date').gte(startISO).lte(endISO).sort('-total').exec();
-//   if(filteredTips){
-//     return res.status(200).json(filteredTips);
-//   }
-//   return res.sendStatus(400);
+  // return res.status(200).json({startISO ,endISO})
+  const filteredTips = await Tip.find({}).where('total').gte(Number(minTotal)).lte(Number(maxTotal)).where('date').gte(startISO).lte(endISO).sort('-total').exec();
+  if(filteredTips){
+    return res.status(200).json(filteredTips);
+  }
+  return res.sendStatus(400);
 });
 
 export default tipRouter;
