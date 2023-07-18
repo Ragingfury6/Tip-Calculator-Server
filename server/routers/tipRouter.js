@@ -59,10 +59,7 @@ tipRouter.post("/filter", async (req, res) => {
   if(minTotal == "") minTotal = 0;
   if(maxTotal == "") maxTotal = 50000;
 
-  if(startDate == ""){
-    let tempDay = new Date();
-    startDate = `${tempDay.getFullYear()}-${tempDay.getMonth() + 1}-${tempDay.getDate()}`;
-  }
+  if(startDate == "") startDate = `2022-01-01`;
   if(startTime == "") startTime = "00:00"
   if(endDate == ""){
     let tempDay = new Date();
@@ -71,7 +68,10 @@ tipRouter.post("/filter", async (req, res) => {
   if(endTime == "") endTime = "23:59";
   /*
   FIX MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC
+  ---
+  FIX IT - SHOULDN't HAVE TO HAVE BOTH START AND END DATE, JUST ONE OR OTHER
 
+  FIX IT - IF DATES ARE VALID, TIMES MUST BE VALID NO MATTER WHAT
   */
   console.log(location, startDate,endDate,startTime,endTime, minTotal, maxTotal);
   // Setup Date
