@@ -63,18 +63,12 @@ tipRouter.post("/filter", async (req, res) => {
     let tempDay = new Date();
     startDate = `${tempDay.getFullYear()}-${tempDay.getMonth() + 1}-${tempDay.getDate()}`;
   }
-  if(startTime == ""){
-    let tempDay = new Date();
-    startTime=`${tempDay.getHours()}:${tempDay.getMinutes()}`;
-  }
+  if(startTime == "") startTime = "00:00"
   if(endDate == ""){
     let tempDay = new Date();
     endDate = `${tempDay.getFullYear()}-${tempDay.getMonth() + 1}-${tempDay.getDate()}`;
   }
-  if(endTime == ""){
-    let tempDay = new Date();
-    endTime=`${tempDay.getHours()}:${tempDay.getMinutes()}`;
-  }
+  if(endTime == "") endTime = "23:59";
   /*
   FIX MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC
 
