@@ -68,14 +68,10 @@ tipRouter.post("/filter", async (req, res) => {
   }
   if(endTime == "") endTime = "23:59";
   /*
-  FATAL MISTAKE - TIME QUERY OVER MULTIPLE DAYS IS SIMPLY A START AND END TIME, AND NOT A BETWEEN TIME
-
-
   FIX MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC
   ---
   FIX IT - SHOULDN't HAVE TO HAVE BOTH START AND END DATE, JUST ONE OR OTHER
 
-  FIX IT - IF DATES ARE VALID, TIMES MUST BE VALID NO MATTER WHAT
   */
   console.log(location, startDate,endDate,startTime,endTime, minTotal, maxTotal);
 
@@ -107,9 +103,9 @@ tipRouter.post("/filter", async (req, res) => {
   endISO.setMinutes(endMinutes);
 
   // Handle Offset
-  // change
-  startISO.setHours(startISO.getHours() + 0);
-  endISO.setHours(endISO.getHours() + 0);
+  // change if using local
+  startISO.setHours(startISO.getHours() + UTCOffset);
+  endISO.setHours(endISO.getHours() + UTCOffset);
 
   // find how many days
   const msInDay = 1000 * 60 * 60 * 24;
@@ -130,6 +126,7 @@ tipRouter.post("/filter", async (req, res) => {
     const currentDayEndISO = new Date(startISO);
     currentDayEndISO.setDate(startISO.getDate() + i);
     currentDayEndISO.setHours(endISO.getHours());
+    currentDayEndISO.setMinutes(endISO.setMinutes());
 
     startISOs.push(new Date(currentDayStartISO).toISOString());
     endISOs.push(new Date(currentDayEndISO).toISOString());
