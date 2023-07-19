@@ -50,6 +50,7 @@ function App() {
     ) return false;
     
     console.log(filtration);
+    const UTCOffset = (new Date().getTimezoneOffset())/60;
     await fetch(
       "https://tip-calculator-server.onrender.com/tip/filter",
       {
@@ -61,7 +62,8 @@ function App() {
           startTime:filtration.startTime,
           endTime:filtration.endTime,
           minTotal:filtration.minTotal,
-          maxTotal:filtration.maxTotal
+          maxTotal:filtration.maxTotal,
+          UTCOffset
         }),
         headers: {
           "Content-Type": "application/json",

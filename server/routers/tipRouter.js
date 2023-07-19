@@ -53,6 +53,7 @@ tipRouter.post("/filter", async (req, res) => {
     endTime,
     minTotal,
     maxTotal,
+    UTCOffset
   } = req.body;
 
   // Set Defaults for body
@@ -96,7 +97,6 @@ tipRouter.post("/filter", async (req, res) => {
   endISO.setMinutes(endMinutes);
 
   // Handle Offset
-  const UTCOffset = (new Date().getTimezoneOffset())/60;
   console.log(UTCOffset);
   console.log(startISO,endISO);
   startISO.setHours(startISO.getHours() + UTCOffset);
