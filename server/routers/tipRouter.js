@@ -67,6 +67,9 @@ tipRouter.post("/filter", async (req, res) => {
   }
   if(endTime == "") endTime = "23:59";
   /*
+  FATAL MISTAKE - TIME QUERY OVER MULTIPLE DAYS IS SIMPLY A START AND END TIME, AND NOT A BETWEEN TIME
+
+
   FIX MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC
   ---
   FIX IT - SHOULDN't HAVE TO HAVE BOTH START AND END DATE, JUST ONE OR OTHER
@@ -91,6 +94,11 @@ tipRouter.post("/filter", async (req, res) => {
   endISO.setDate(endDay);
   endISO.setHours(endHours);
   endISO.setMinutes(endMinutes);
+
+  // Handle Offset
+  const UTCOffset = (new Date().getTimezoneOffset())/60;
+  startISO.setHours(startISO.getHours() + UTCOffset);
+  endISO.setHours(endISO.getHours() + UTCOffset);
 
   startISO = startISO.toISOString();
   endISO = endISO.toISOString();
