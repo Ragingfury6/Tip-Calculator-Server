@@ -96,13 +96,16 @@ tipRouter.post("/filter", async (req, res) => {
   endISO.setMinutes(endMinutes);
 
   // Handle Offset
-  const UTCOffset = (new Date().getTimezoneOffset())/60;
-  startISO.setHours(startISO.getHours() + UTCOffset);
-  endISO.setHours(endISO.getHours() + UTCOffset);
-
+  // const UTCOffset = (new Date().getTimezoneOffset())/60;
+  // console.log(UTCOffset);
+  console.log(startISO,endISO);
+  // startISO.setHours(startISO.getHours() + UTCOffset);
+  // endISO.setHours(endISO.getHours() + UTCOffset);
+  
   startISO = startISO.toISOString();
   endISO = endISO.toISOString();
-
+  
+  console.log(startISO,endISO);
 
   // return res.status(200).json({startISO ,endISO})
   const filteredTips = await Tip.find({}).where('total').gte(Number(minTotal)).lte(Number(maxTotal)).where('date').gte(startISO).lte(endISO).sort('-total').exec();
