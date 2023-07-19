@@ -55,13 +55,18 @@ tipRouter.post("/filter", async (req, res) => {
     maxTotal,
     UTCOffset
   } = req.body;
+  
+  // Vars to stop utc offset if undefined originally
+  const startTimeWasOriginallyEmpty = startTime == "";
+  const endTimeWasOriginallyEmpty = endTime == "";
 
   // Set Defaults for body
   if(minTotal == "") minTotal = 0;
   if(maxTotal == "") maxTotal = 50000;
 
-  if(startDate == "") startDate = `2022-01-01`;
-  if(startTime == "") startTime = "00:00"
+  // start date will have to be limited at some point
+  if(startDate == "") startDate = `2023-07-12`;
+  if(startTime == "") startTime = "00:00";
   if(endDate == ""){
     let tempDay = new Date();
     endDate = `${tempDay.getFullYear()}-${tempDay.getMonth() + 1}-${tempDay.getDate()}`;
@@ -104,8 +109,8 @@ tipRouter.post("/filter", async (req, res) => {
 
   // Handle Offset
   // change if using local
-  startISO.setHours(startISO.getHours() + UTCOffset);
-  endISO.setHours(endISO.getHours() + UTCOffset);
+  if(startTimeWasOriginallyEmpty) startISO.setHours(startISO.getHours() + UTCOffset);
+  if(endTimeWasOriginallyEmpty) endISO.setHours(endISO.getHours() + UTCOffset);
 
   // find how many days
   const msInDay = 1000 * 60 * 60 * 24;
