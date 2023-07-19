@@ -109,8 +109,8 @@ tipRouter.post("/filter", async (req, res) => {
 
   // Handle Offset
   // change if using local
-  if(startTimeWasOriginallyEmpty) startISO.setHours(startISO.getHours() + UTCOffset);
-  if(endTimeWasOriginallyEmpty) endISO.setHours(endISO.getHours() + UTCOffset);
+  if(!startTimeWasOriginallyEmpty) startISO.setHours(startISO.getHours() + UTCOffset);
+  if(!endTimeWasOriginallyEmpty) endISO.setHours(endISO.getHours() + UTCOffset);
 
   // find how many days
   const msInDay = 1000 * 60 * 60 * 24;
