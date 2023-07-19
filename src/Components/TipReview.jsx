@@ -7,6 +7,7 @@ export default function TipReview({date, location, total, employees, tips, hours
     const tipsArr = tips.split(",");
     const hoursArr = hours.split(",");
     const totalHours = hoursArr.reduce((a,e)=>a+Number(e),0);
+    // Shouldn't be MST, but instead your local time zone
     const {month,day,time} = dateConverter(new Date(date).toLocaleString('en-GB', { timeZone: 'MST' }));
     const detailedViewHTML = employeeArr.reduce((a,e,i)=>{
         return (a+

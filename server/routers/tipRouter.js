@@ -78,17 +78,27 @@ tipRouter.post("/filter", async (req, res) => {
   FIX IT - IF DATES ARE VALID, TIMES MUST BE VALID NO MATTER WHAT
   */
   console.log(location, startDate,endDate,startTime,endTime, minTotal, maxTotal);
+
+  // ISO Arrays
+  const startISOs = [];
+  const endISOs = [];
+
   // Setup Date
+  
+  // Declare Vars
   let [startYear, startMonth, startDay] =  startDate.split("-");
   let [startHours, startMinutes] = startTime.split(":");
+  let [endYear, endMonth, endDay] =  endDate.split("-");
+  let [endHours, endMinutes] = endTime.split(":");
+
+  // Set Dates
   let startISO = new Date();
   startISO.setFullYear(startYear);
   startISO.setMonth(Number(startMonth)-1);
   startISO.setDate(startDay);
   startISO.setHours(startHours);
   startISO.setMinutes(startMinutes);
-  let [endYear, endMonth, endDay] =  endDate.split("-");
-  let [endHours, endMinutes] = endTime.split(":");
+
   let endISO = new Date();
   endISO.setFullYear(endYear);
   endISO.setMonth(Number(endMonth)-1);
@@ -97,18 +107,46 @@ tipRouter.post("/filter", async (req, res) => {
   endISO.setMinutes(endMinutes);
 
   // Handle Offset
-  console.log(UTCOffset);
-  console.log(startISO,endISO);
-  startISO.setHours(startISO.getHours() + UTCOffset);
-  endISO.setHours(endISO.getHours() + UTCOffset);
-  
-  startISO = startISO.toISOString();
-  endISO = endISO.toISOString();
-  
-  console.log(startISO,endISO);
+  // change
+  startISO.setHours(startISO.getHours() + 0);
+  endISO.setHours(endISO.getHours() + 0);
 
-  // return res.status(200).json({startISO ,endISO})
-  const filteredTips = await Tip.find({}).where('total').gte(Number(minTotal)).lte(Number(maxTotal)).where('date').gte(startISO).lte(endISO).sort('-total').exec();
+  // find how many days
+  const msInDay = 1000 * 60 * 60 * 24;
+  const tempStartDate = new Date(startISO);
+  tempStartDate.setHours(1);
+  tempStartDate.setMinutes(0);
+  const tempEndDate = new Date(endISO);
+  tempEndDate.setHours(1);
+  tempEndDate.setMinutes(0);
+  const totalDays  = Math.round((tempEndDate.getTime() - tempStartDate.getTime())/msInDay) + 1;
+  console.log(totalDays);
+
+
+  for(let i = 0; i < totalDays; i++){
+    const currentDayStartISO = new Date(startISO);
+    currentDayStartISO.setDate(startISO.getDate() + i);
+    
+    const currentDayEndISO = new Date(startISO);
+    currentDayEndISO.setDate(startISO.getDate() + i);
+    currentDayEndISO.setHours(endISO.getHours());
+
+    startISOs.push(new Date(currentDayStartISO).toISOString());
+    endISOs.push(new Date(currentDayEndISO).toISOString());
+  }
+  console.log(startISOs, endISOs);
+  
+  // Build $or array
+  let dateQueryArray = startISOs.map((iso,idx)=>{
+    return {date:{$gte:iso, $lte:endISOs[idx]}};
+  });
+
+  // .where('date').or([]) 
+  const filteredTips = await Tip.find({
+    total:{$gte:Number(minTotal), $lte:Number(maxTotal)},
+    // date:{$gte:startISO,$lte:endISO}
+    $or:dateQueryArray
+  }).sort('-total').exec();
   if(filteredTips){
     return res.status(200).json(filteredTips);
   }
@@ -116,3 +154,4 @@ tipRouter.post("/filter", async (req, res) => {
 });
 
 export default tipRouter;
+
