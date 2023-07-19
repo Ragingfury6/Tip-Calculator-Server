@@ -96,11 +96,11 @@ tipRouter.post("/filter", async (req, res) => {
   endISO.setMinutes(endMinutes);
 
   // Handle Offset
-  // const UTCOffset = (new Date().getTimezoneOffset())/60;
-  // console.log(UTCOffset);
+  const UTCOffset = (new Date().getTimezoneOffset())/60;
+  console.log(UTCOffset);
   console.log(startISO,endISO);
-  // startISO.setHours(startISO.getHours() + UTCOffset);
-  // endISO.setHours(endISO.getHours() + UTCOffset);
+  startISO.setHours(startISO.getHours() + UTCOffset);
+  endISO.setHours(endISO.getHours() + UTCOffset);
   
   startISO = startISO.toISOString();
   endISO = endISO.toISOString();
