@@ -8,9 +8,6 @@ export default defineConfig({
   build: {
     rollupOptions: {
         external: [
-            "sweetalert2",
-            "number-to-words",
-            "convert-time",
             '/node_modules/.vite/deps/sweetalert2.js'
         ],
     }
