@@ -134,7 +134,7 @@ tipRouter.post("/filter", async (req, res) => {
   console.log(startISO, endISO)
 
 
-if(totalDays > 1){
+
   for(let i = 0; i < totalDays; i++){
     const currentDayStartISO = new Date(startISO);
     currentDayStartISO.setDate(startISO.getDate() + i);
@@ -147,10 +147,7 @@ if(totalDays > 1){
     startISOs.push(new Date(currentDayStartISO).toISOString());
     endISOs.push(new Date(currentDayEndISO).toISOString());
   }
-}else{
-  startISOs.push(startISO);
-  endISOs.push(endISO);
-}
+
   console.log(startISOs, endISOs);
   
   // Build $or array
