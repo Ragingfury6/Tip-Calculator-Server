@@ -11,7 +11,7 @@ export default defineConfig({
             "sweetalert2",
             "number-to-words",
             "convert-time",
-            /node_modules/
+            '/node_modules/.vite/deps/sweetalert2.js'
         ],
     }
 },
