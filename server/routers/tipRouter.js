@@ -128,8 +128,8 @@ tipRouter.post("/filter", async (req, res) => {
   console.log(totalDays);
 
   //CHANGE
-  startISO.setHours(startISO.getHours() + 0);
-  endISO.setHours(endISO.getHours() + 0);
+  startISO.setHours(startISO.getHours() + UTCOffset);
+  endISO.setHours(endISO.getHours() + UTCOffset);
 
   console.log(startISO, endISO)
 
