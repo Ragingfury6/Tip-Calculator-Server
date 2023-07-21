@@ -9,10 +9,8 @@ export default defineConfig({
     rollupOptions: {
         external: [
             "sweetalert2",
-            // fileURLToPath(new URL('')),
             "number-to-words",
             "convert-time",
-            /node_modules/
         ],
     }
 },

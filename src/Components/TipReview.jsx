@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import dateConverter from '../helpers/dateConverter';
 import militaryToStandard from '../helpers/militaryToStandard';
-import Swal from 'sweetalert2';
+import Swal from '/node_modules/.vite/deps/sweetalert2.js';
 // import TipHeader from './TipHeader';
 export default function TipReview({date, location, total, employees, tips, hours}){
     const employeeArr = employees.split(",");
