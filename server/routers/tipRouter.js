@@ -75,9 +75,10 @@ tipRouter.post("/filter", async (req, res) => {
   /*
   FIX MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC
   ---
-  FIX IT - SHOULDN't HAVE TO HAVE BOTH START AND END DATE, JUST ONE OR OTHER
-
+  FIX SHOULDN't HAVE TO HAVE BOTH START AND END DATE, JUST ONE OR OTHER
+  SAME WITH TIME AND TOTAL
   */
+ // NO TIME BUT SPECIFIED DATE NEEDS TO BE FIXED, YES UTC OFFSET NEEDS TO BE ACCOUNTED
   console.log(location, startDate,endDate,startTime,endTime, minTotal, maxTotal);
 
   // ISO Arrays
@@ -109,6 +110,11 @@ tipRouter.post("/filter", async (req, res) => {
 
   // Handle Offset
   // change if using local
+
+  // *** 
+  // FIND HOW MANY DAYS, BEFORE THE UTC OFFSET IS CALCULATED FOR 
+  // reset button for filter (for mobile mostly)
+  //***
   if(!startTimeWasOriginallyEmpty) startISO.setHours(startISO.getHours() + UTCOffset);
   if(!endTimeWasOriginallyEmpty) endISO.setHours(endISO.getHours() + UTCOffset);
 
