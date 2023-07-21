@@ -57,8 +57,8 @@ tipRouter.post("/filter", async (req, res) => {
   } = req.body;
   
   // Vars to stop utc offset if undefined originally
-  const startTimeWasOriginallyEmpty = startTime == "";
-  const endTimeWasOriginallyEmpty = endTime == "";
+  // const startTimeWasOriginallyEmpty = startTime == "";
+  // const endTimeWasOriginallyEmpty = endTime == "";
 
   // Set Defaults for body
   if(minTotal == "") minTotal = 0;
@@ -115,8 +115,6 @@ tipRouter.post("/filter", async (req, res) => {
   // FIND HOW MANY DAYS, BEFORE THE UTC OFFSET IS CALCULATED FOR 
   // reset button for filter (for mobile mostly)
   //***
-  if(!startTimeWasOriginallyEmpty) startISO.setHours(startISO.getHours() + UTCOffset);
-  if(!endTimeWasOriginallyEmpty) endISO.setHours(endISO.getHours() + UTCOffset);
 
   // find how many days
   const msInDay = 1000 * 60 * 60 * 24;
@@ -128,6 +126,13 @@ tipRouter.post("/filter", async (req, res) => {
   tempEndDate.setMinutes(0);
   const totalDays  = Math.round((tempEndDate.getTime() - tempStartDate.getTime())/msInDay) + 1;
   console.log(totalDays);
+
+  //CHANGE
+  startISO.setHours(startISO.getHours() + 0);
+  endISO.setHours(endISO.getHours() + 0);
+
+  console.log(startISO, endISO)
+
 
 
   for(let i = 0; i < totalDays; i++){
