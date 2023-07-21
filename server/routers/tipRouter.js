@@ -139,10 +139,12 @@ tipRouter.post("/filter", async (req, res) => {
     const currentDayStartISO = new Date(startISO);
     currentDayStartISO.setDate(startISO.getDate() + i);
     
-    const currentDayEndISO = new Date(startISO);
+    let currentDayEndISO = new Date(startISO);
     currentDayEndISO.setDate(startISO.getDate() + i);
     currentDayEndISO.setHours(endISO.getHours());
     currentDayEndISO.setMinutes(endISO.getMinutes());
+
+    if(totalDays === 1) currentDayEndISO = new Date(endISO);
 
     startISOs.push(new Date(currentDayStartISO).toISOString());
     endISOs.push(new Date(currentDayEndISO).toISOString());
