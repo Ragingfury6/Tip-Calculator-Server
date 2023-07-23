@@ -73,12 +73,14 @@ tipRouter.post("/filter", async (req, res) => {
   }
   if(endTime == "") endTime = "23:59";
   /*
-  FIX MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC
-  ---
-  FIX SHOULDN't HAVE TO HAVE BOTH START AND END DATE, JUST ONE OR OTHER
-  SAME WITH TIME AND TOTAL
+  - reset button for filter (for mobile mostly)
+  - MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC
+  - SHOULDN't HAVE TO HAVE BOTH START AND END DATE, JUST ONE OR OTHER
+  - SAME WITH TIME AND TOTAL
+  - autocomplete end date with same as start date
+  - EMPTY SEARCH DOESNT WORK
+  - MULTIPLE DAY QUERY NO WORK
   */
- // NO TIME BUT SPECIFIED DATE NEEDS TO BE FIXED, YES UTC OFFSET NEEDS TO BE ACCOUNTED
   console.log(location, startDate,endDate,startTime,endTime, minTotal, maxTotal);
 
   // ISO Arrays
@@ -108,13 +110,6 @@ tipRouter.post("/filter", async (req, res) => {
   endISO.setHours(endHours);
   endISO.setMinutes(endMinutes);
 
-  // Handle Offset
-  // change if using local
-
-  // *** 
-  // FIND HOW MANY DAYS, BEFORE THE UTC OFFSET IS CALCULATED FOR 
-  // reset button for filter (for mobile mostly)
-  //***
 
   // find how many days
   const msInDay = 1000 * 60 * 60 * 24;
@@ -127,7 +122,6 @@ tipRouter.post("/filter", async (req, res) => {
   const totalDays  = Math.round((tempEndDate.getTime() - tempStartDate.getTime())/msInDay) + 1;
   console.log(totalDays);
 
-  //CHANGE
   startISO.setHours(startISO.getHours() + UTCOffset);
   endISO.setHours(endISO.getHours() + UTCOffset);
 
@@ -143,6 +137,13 @@ tipRouter.post("/filter", async (req, res) => {
     currentDayEndISO.setDate(startISO.getDate() + i);
     currentDayEndISO.setHours(endISO.getHours());
     currentDayEndISO.setMinutes(endISO.getMinutes());
+    // the fix
+    /*
+    if after doing this end is less than start with string comparison, just add one day to end.
+    */
+   if(currentDayEndISO < currentDayStartISO){
+    currentDayEndISO.setDate(currentDayEndISO.getDate() + 1);
+   }
 
     if(totalDays === 1) currentDayEndISO = new Date(endISO);
 
