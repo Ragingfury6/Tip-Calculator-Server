@@ -36,14 +36,16 @@ body{
   width: 10rem;
 }
 .search-input-lg{
-  width:15rem;
+  width:100%;
 }
-/* .search-input:nth-of-type(odd){
-  border-right-width: 0px;
-}
-.search-input:first-of-type{
-  border-left-width: 0px;
-}
-.search-input:last-of-type{
-  border-right-width: 0px;
+
+/* .search-form{
+  container-type: inline-size;
 } */
+
+@media (min-width: 1580px){
+  .search-input-container{
+    flex-direction:row;
+    gap:0rem;
+  }
+}

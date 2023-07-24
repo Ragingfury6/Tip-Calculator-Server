@@ -2,7 +2,12 @@
 export default {
   content: ['./src/Components/*', './src/App.jsx', './src/main.jsx', './index.html'],
   theme: {
-    extend: {},
+    extend: {
+      screens:{
+      'md':'800px',
+      '2xl':'1580px'
+      }
+    },
     colors:{
       'primary-800': '#191C24',
       'primary-600': '#2a2f3c',

@@ -41,7 +41,7 @@ export default function TipReview({date, location, total, employees, tips, hours
           })
     }
     return (
-        <div className="grid grid-cols-4 gap-4 justify-items-center bg-primary-600 rounded-md p-3 cursor-pointer hover:bg-accent-dark-blue transition" onClick={()=>handleClick()}>
+        <div className="grid grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center bg-primary-600 rounded-md p-3 cursor-pointer hover:bg-accent-dark-blue transition" onClick={()=>handleClick()}>
                 <p>{location}</p>
                 <p>{`${month} ${day}, ${militaryToStandard(time)}`}</p>
                 <p>${total.toFixed(2)}</p>
@@ -54,7 +54,7 @@ export default function TipReview({date, location, total, employees, tips, hours
                         </div>
                     );
                 })} */}
-                <div className="emp">
+                <div className="emp hidden xl:block">
                     <p>{employeeArr.length} Employees · {totalHours} Hours</p> 
                 </div>
         </div>

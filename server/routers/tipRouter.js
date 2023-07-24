@@ -73,13 +73,17 @@ tipRouter.post("/filter", async (req, res) => {
   }
   if(endTime == "") endTime = "23:59";
   /*
+  - Filtering
+
   - reset button for filter (for mobile mostly)
+
   - MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC
   - SHOULDN't HAVE TO HAVE BOTH START AND END DATE, JUST ONE OR OTHER
   - SAME WITH TIME AND TOTAL
+
   - autocomplete end date with same as start date
-  - EMPTY SEARCH DOESNT WORK
-  - MULTIPLE DAY QUERY NO WORK
+
+  - desktop sizing 100vh all the time
   */
   console.log(location, startDate,endDate,startTime,endTime, minTotal, maxTotal);
 
@@ -137,10 +141,7 @@ tipRouter.post("/filter", async (req, res) => {
     currentDayEndISO.setDate(startISO.getDate() + i);
     currentDayEndISO.setHours(endISO.getHours());
     currentDayEndISO.setMinutes(endISO.getMinutes());
-    // the fix
-    /*
-    if after doing this end is less than start with string comparison, just add one day to end.
-    */
+
    if(currentDayEndISO < currentDayStartISO){
     currentDayEndISO.setDate(currentDayEndISO.getDate() + 1);
    }

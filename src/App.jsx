@@ -10,7 +10,8 @@ import { useReducer, useState } from "react";
 
 function App() {
   let { data, status } = useQuery("tips", fetchAllTips);
-  const [filteredData, setFilteredData] = useState(null);
+  let [filteredData, setFilteredData] = useState(null);
+  let [sortInfo, setSortInfo] = useState(['',false]);
   const filtrationReducer = (state, action) => {
     switch (action.type) {
       case "Location":
@@ -27,6 +28,16 @@ function App() {
         return { ...state, minTotal: action.payload };
       case "MaxTotal":
         return { ...state, maxTotal: action.payload };
+      case "RESET":
+        return {
+        location: "",
+        startDate: "",
+        endDate: "",
+        startTime: "",
+        endTime: "",
+        minTotal: "",
+        maxTotal: "",
+      }
       default:
         return { ...state };
     }
@@ -40,22 +51,32 @@ function App() {
     minTotal: "",
     maxTotal: "",
   });
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, reset=false) => {
     e.preventDefault();
-    if (
-      new Date(filtration.endDate).getTime() <
-        new Date(filtration.startDate).getTime() ||
-      Number(filtration.minTotal) > Number(filtration.maxTotal) ||
-      filtration.startTime > filtration.endTime
-    ) return false;
+    // if (
+    //   new Date(filtration.endDate).getTime() <
+    //     new Date(filtration.startDate).getTime() ||
+    //   Number(filtration.minTotal) > Number(filtration.maxTotal) ||
+    //   filtration.startTime > filtration.endTime
+    // ) return false;
     
     console.log(filtration);
+  
     const UTCOffset = (new Date().getTimezoneOffset())/60;
     await fetch(
       "https://tip-calculator-server.onrender.com/tip/filter",
       {
         method: "POST",
-        body:JSON.stringify({
+        body: reset ? JSON.stringify({
+          location: "",
+          startDate:"",
+          endDate:"",
+          startTime:"",
+          endTime:"",
+          minTotal:"",
+          maxTotal:"",
+          UTCOffset
+        }) : JSON.stringify({
           location: filtration.location,
           startDate:filtration.startDate,
           endDate:filtration.endDate,
@@ -76,28 +97,30 @@ function App() {
         return true;
       }
     });
-    // new request with use query
-    // set filtered data
-    // react loading skele
   };
+  const sortData = (a,b) => {
+        if(a[sortInfo[0]] < b[sortInfo[0]]) return (sortInfo[1] ? 1 : -1);
+        if(a[sortInfo[0]] > b[sortInfo[0]]) return (sortInfo[1] ? -1 : 1);
+        return 0;
+  }
   return (
     <>
       {status === "error" && <p>Error fetching data</p>}
       {status === "loading" && <p>Fetching data...</p>}
 
-      <div className="max-h-screen grid grid-flow-row-dense">
+      <div className="h-screen grid grid-cols-12 p-2 sm:p-8 auto-rows-[min-content]">
         <SearchBar filtration={filtration} dispatch={dispatch} handleSubmit={handleSubmit}/>
-        <div className="bg-primary-800 p-4 w-3/4 mx-auto grid grid-flow-row gap-3 rounded-xl">
+        <div className="bg-primary-800 mt-8 xl:mt-0 p-4 mx-auto flex flex-col max-h-[calc(100vh_-_13rem)] xl:max-h-[calc(100vh_-_4rem)] gap-3 rounded-xl w-full col-span-full xl:col-start-5 xl:col-end-[-1]">
           {status === "success" && (
             <>
               <h2 className="text-center text-3xl font-semibold mb-2">
                 {filteredData ? (filteredData.length === 0 ? 'No Results Found' : `Displaying All ${filteredData.length} Results`) : `Displaying All ${data.length} Results`}
               </h2>
-              <TipHeader headers={["Location", "Date", "Total", "Breakdown"]} />
-              <div className="max-h-[28rem] overflow-scroll grid grid-flow-row gap-3">
-                {!filteredData ? data.map((d, idx) => (
+              <TipHeader sortInfo={sortInfo} setSortInfo={setSortInfo}/>
+              <div className="overflow-scroll grid grid-flow-row gap-3">
+                {!filteredData ? data.sort((a,b)=>sortData(a,b)).map((d, idx) => (
                   <TipReview {...d} key={idx} />
-                )) : filteredData.map((d, idx) => (
+                )) : filteredData.sort((a,b)=>sortData(a,b)).map((d, idx) => (
                   <TipReview {...d} key={idx} />
                 ))}
               </div>

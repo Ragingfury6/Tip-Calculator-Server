@@ -1,16 +1,33 @@
+import { useRef, useState } from "react";
 import Divider from "./Divider";
 import PropTypes from "prop-types";
 export default function SearchBar({ filtration, dispatch, handleSubmit }) {
-  
+  const [expanded, setExpanded] = useState(false);
+  const searchRef = useRef(null);
+  const chevronRef = useRef(null);
 
   return (
     <form
       onSubmit={(e) => handleSubmit(e)}
-      className="bg-primary-800 text-center w-3/4 mx-auto rounded-xl my-8 p-4 grid gap-4 justify-items-center"
+      id="search-form"
+      className={`bg-primary-800 text-center mx-auto rounded-xl p-4 flex flex-col gap-4 items-center content-start w-full max-h-[calc(100vh_-_4rem)] overflow-scroll col-span-full xl:col-span-3 2xl:h-[inherit]`}
     >
+      <div className="flex items-center mb-8 gap-4">
       <h2 className="text-4xl font-bold">Search By...</h2>
-      <div className="flex justify-center items-start gap-6">
-        <div className="">
+      <img src="/chevron-down.svg" className="w-8 h-8 xl:hidden transition duration-500" alt="" ref={chevronRef} onClick={()=>{
+        setExpanded(!expanded);
+        chevronRef.current.classList.toggle('rotate-180');
+        if(expanded){
+          searchRef.current.style.gridTemplateRows = '0fr';
+        }else{
+          searchRef.current.style.gridTemplateRows = '1fr';
+        }
+      }} />
+      </div>
+      <div className="grid grid-rows-[0fr] xl:!grid-rows-[1fr] 2xl:h-full transition-all duration-500" ref={searchRef}>
+        <div className="overflow-hidden flex flex-col items-center justify-center">
+      <div className="flex xl:flex-col justify-center items-start gap-6 flex-col md:flex-row">
+        <div className="w-full">
           <h3 className="text-xl font-bold mb-2">Location</h3>
           <input
             type="text"
@@ -22,9 +39,9 @@ export default function SearchBar({ filtration, dispatch, handleSubmit }) {
             className="search-input search-input-lg"
           />
         </div>
-        <div className="">
+        <div className="w-full">
           <h3 className="text-xl font-bold mb-2">Date</h3>
-          <div className="flex items-center">
+          <div className="search-input-container flex flex-col gap-4 justify-center items-center">
             <input
               type="date"
               value={filtration.startDate}
@@ -44,9 +61,9 @@ export default function SearchBar({ filtration, dispatch, handleSubmit }) {
             />
           </div>
         </div>
-        <div className="">
+        <div className="w-full">
           <h3 className="text-xl font-bold mb-2">Time</h3>
-          <div className="flex items-center">
+          <div className="search-input-container flex flex-col gap-4 justify-center items-center">
             <input
               type="time"
               value={filtration.startTime}
@@ -66,9 +83,9 @@ export default function SearchBar({ filtration, dispatch, handleSubmit }) {
             />
           </div>
         </div>
-        <div className="">
+        <div className="w-full">
           <h3 className="text-xl font-bold mb-2">Total</h3>
-          <div className="flex items-center">
+          <div className="search-input-container flex flex-col gap-4 justify-center items-center">
             <input
               type="text"
               value={filtration.minTotal}
@@ -94,15 +111,29 @@ export default function SearchBar({ filtration, dispatch, handleSubmit }) {
       </div>
       <button
         type="submit"
-        className="py-4 px-12 rounded-xl bg-accent-dark-blue text-2xl font-bold tracking-wide w-min hover:bg-[#0252ca] transition"
+        className="mt-4 2xl:my-auto py-4 px-12 rounded-xl bg-accent-dark-blue text-2xl font-bold tracking-wide w-min hover:bg-[#0252ca] transition"
+        onClick={()=>searchRef.current.style.gridTemplateRows = '0fr'}
       >
         Search
       </button>
+      <button
+        type="button"
+        className="mt-4 2xl:my-auto py-4 px-12 rounded-xl bg-accent-red text-2xl font-bold tracking-wide w-min hover:bg-[#8d2532] transition"
+        onClick={(e)=>{
+          searchRef.current.style.gridTemplateRows = '0fr';
+          handleSubmit(e, true)
+        }}
+      >
+        Reset
+      </button>
+      </div>
+      </div>
     </form>
   );
 }
 SearchBar.propTypes = {
   filtration: PropTypes.object,
   dispatch: PropTypes.func,
-  handleSubmit: PropTypes.func
+  handleSubmit: PropTypes.func,
+  searchRef: PropTypes.any
 };
