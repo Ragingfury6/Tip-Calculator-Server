@@ -112,7 +112,11 @@ export default function SearchBar({ filtration, dispatch, handleSubmit }) {
       <button
         type="submit"
         className="mt-4 2xl:my-auto py-4 px-12 rounded-xl bg-accent-dark-blue text-2xl font-bold tracking-wide w-min hover:bg-[#0252ca] transition"
-        onClick={()=>searchRef.current.style.gridTemplateRows = '0fr'}
+        onClick={()=>{
+          searchRef.current.style.gridTemplateRows = '0fr';
+          setExpanded(!expanded);
+          chevronRef.current.classList.toggle('rotate-180');
+        }}
       >
         Search
       </button>
@@ -121,6 +125,8 @@ export default function SearchBar({ filtration, dispatch, handleSubmit }) {
         className="mt-4 2xl:my-auto py-4 px-12 rounded-xl bg-accent-red text-2xl font-bold tracking-wide w-min hover:bg-[#8d2532] transition"
         onClick={(e)=>{
           searchRef.current.style.gridTemplateRows = '0fr';
+          setExpanded(!expanded);
+          chevronRef.current.classList.toggle('rotate-180');
           handleSubmit(e, true)
         }}
       >
