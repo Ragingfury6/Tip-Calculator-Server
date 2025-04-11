@@ -4,7 +4,7 @@ const tipRouter = express.Router();
 
 // Get all Tips
 tipRouter.get("/", async (req, res) => {
-  const allTips = await Tip.find().limit(1000).exec();
+  const allTips = await Tip.find().sort({ date: -1 }).limit(1000).exec();
   const tipAmount = await Tip.countDocuments();
   if (allTips) {
     return res.status(200).json({allTips, tipAmount});
@@ -156,7 +156,7 @@ tipRouter.post("/filter", async (req, res) => {
     total:{$gte:Number(minTotal), $lte:Number(maxTotal)},
     // date:{$gte:startISO,$lte:endISO}
     $or:dateQueryArray
-  }).sort('-total').limit(1000).exec();
+  }).sort('-total').sort({ date: -1 }).limit(1000).exec();
   if(filteredTips){
     return res.status(200).json(filteredTips);
   }

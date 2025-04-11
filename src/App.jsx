@@ -115,7 +115,7 @@ function App() {
           {status === "success" && (
             <>
               <h2 className="text-center text-3xl font-semibold mb-2">
-                {filteredData ? (filteredData.length === 0 ? 'No Results Found' : `Displaying All ${filteredData.length} Results`) : `Displaying All ${tipAmount} Results`}
+                {filteredData ? (filteredData.length === 0 ? 'No Results Found' : `Displaying ${filteredData.length} / ${tipAmount} Results`) : `Displaying ${allTips.length} / ${tipAmount} Results`}
               </h2>
               <TipHeader sortInfo={sortInfo} setSortInfo={setSortInfo}/>
               <div className="overflow-scroll grid grid-flow-row gap-3">
