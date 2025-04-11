@@ -10,6 +10,7 @@ import { useReducer, useState } from "react";
 
 function App() {
   let { data, status } = useQuery("tips", fetchAllTips);
+  let {allTips, tipAmount} = data || {};
   let [filteredData, setFilteredData] = useState(null);
   let [sortInfo, setSortInfo] = useState(['',false]);
   const filtrationReducer = (state, action) => {
@@ -114,11 +115,11 @@ function App() {
           {status === "success" && (
             <>
               <h2 className="text-center text-3xl font-semibold mb-2">
-                {filteredData ? (filteredData.length === 0 ? 'No Results Found' : `Displaying All ${filteredData.length} Results`) : `Displaying All ${data.length} Results`}
+                {filteredData ? (filteredData.length === 0 ? 'No Results Found' : `Displaying All ${filteredData.length} Results`) : `Displaying All ${tipAmount} Results`}
               </h2>
               <TipHeader sortInfo={sortInfo} setSortInfo={setSortInfo}/>
               <div className="overflow-scroll grid grid-flow-row gap-3">
-                {!filteredData ? data.sort((a,b)=>sortData(a,b)).map((d, idx) => (
+                {!filteredData ? allTips.sort((a,b)=>sortData(a,b)).map((d, idx) => (
                   <TipReview {...d} key={idx} />
                 )) : filteredData.sort((a,b)=>sortData(a,b)).map((d, idx) => (
                   <TipReview {...d} key={idx} />

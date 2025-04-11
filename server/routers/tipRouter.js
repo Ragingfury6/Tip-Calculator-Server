@@ -4,9 +4,10 @@ const tipRouter = express.Router();
 
 // Get all Tips
 tipRouter.get("/", async (req, res) => {
-  const allTips = await Tip.find();
+  const allTips = await Tip.find().limit(1000).exec();
+  const tipAmount = await Tip.countDocuments();
   if (allTips) {
-    return res.status(200).json(allTips);
+    return res.status(200).json({allTips, tipAmount});
   }
   return res.sendStatus(404);
 });
@@ -73,17 +74,8 @@ tipRouter.post("/filter", async (req, res) => {
   }
   if(endTime == "") endTime = "23:59";
   /*
-  - Filtering
-
-  - reset button for filter (for mobile mostly)
-
-  - MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC
-  - SHOULDN't HAVE TO HAVE BOTH START AND END DATE, JUST ONE OR OTHER
-  - SAME WITH TIME AND TOTAL
-
-  - autocomplete end date with same as start date
-
-  - desktop sizing 100vh all the time
+  -  Functionality for reset button in terms of array size on backend
+  - MONTH MINUS OR PLUS ONE IN CASE JAN OR DEC ** not sure if this is still a problem
   */
   console.log(location, startDate,endDate,startTime,endTime, minTotal, maxTotal);
 
@@ -164,7 +156,7 @@ tipRouter.post("/filter", async (req, res) => {
     total:{$gte:Number(minTotal), $lte:Number(maxTotal)},
     // date:{$gte:startISO,$lte:endISO}
     $or:dateQueryArray
-  }).sort('-total').exec();
+  }).sort('-total').limit(1000).exec();
   if(filteredTips){
     return res.status(200).json(filteredTips);
   }
