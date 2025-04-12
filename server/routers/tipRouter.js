@@ -156,7 +156,7 @@ tipRouter.post("/filter", async (req, res) => {
     total:{$gte:Number(minTotal), $lte:Number(maxTotal)},
     // date:{$gte:startISO,$lte:endISO}
     $or:dateQueryArray
-  }).sort('-total').limit(1000).exec();
+  }).sort({ date: -1 }).limit(1000).exec();
   if(filteredTips){
     return res.status(200).json(filteredTips);
   }
